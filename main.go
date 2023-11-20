@@ -19,6 +19,10 @@ func main() {
 	// Migrate the schema
 
 	db.AutoMigrate(&models.User{})
+	db.AutoMigrate(&models.Branch{})
+	db.AutoMigrate(&models.Inventory{})
+	db.AutoMigrate(&models.Sale{})
+	db.AutoMigrate(&models.Product{})
 
 	// Set up routes
 	routes.SetupUserRoutes(r, db) // Setup user routes
