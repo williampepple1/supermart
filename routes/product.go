@@ -9,7 +9,7 @@ import (
 )
 
 func SetupProductRoutes(r *gin.Engine, db *gorm.DB) {
-	authorized := r.Group("/branch")
+	authorized := r.Group("/product")
 	// authorized.Use(middleware.Authorize(db))
 	{
 		authorized.GET("/", controllers.ListProducts(db))
