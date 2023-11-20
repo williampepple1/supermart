@@ -8,7 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
+	"github.com/jinzhu/gorm"
 	"github.com/joho/godotenv"
+	"net/http"
+	"supermart/models"
 )
 
 // JWT key used to create the signature.
@@ -21,7 +24,7 @@ func init() {
 	}
 }
 
-func Authorize() gin.HandlerFunc {
+func Authorize(db *gorm.DB) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
 		if authHeader == "" {
@@ -46,6 +49,20 @@ func Authorize() gin.HandlerFunc {
 
 		if err != nil || !tkn.Valid {
 			c.JSON(401, gin.H{"error": "Unauthorized"})
+			c.Abort()
+			return
+		}
+		// Check if the user is active
+		var user models.User
+
+		if err := db.Where("id = ?", claims.Id).First(&user).Error; err != nil {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "User not found"})
+			c.Abort()
+			return
+		}
+
+		if !user.Active {
+			c.JSON(http.StatusUnauthorized, gin.H{"error": "User is not active"})
 			c.Abort()
 			return
 		}
