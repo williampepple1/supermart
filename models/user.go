@@ -21,6 +21,7 @@ type User struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 	Username  string     `gorm:"unique" json:"username"`
 	Password  string     `json:"password"`
+	Active    bool       `json:"active"`
 	Role      RoleStatus `gorm:"type:varchar(20);not null;default:'cashier'" json:"role"`
 	BranchID  uint       `json:"branch_id"`
 }
