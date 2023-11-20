@@ -1,9 +1,10 @@
 package models
 
 import (
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/jinzhu/gorm"
-	"time"
 )
 
 type RoleStatus string
@@ -20,8 +21,8 @@ type User struct {
 	UpdatedAt time.Time  `json:"updated_at"`
 	Username  string     `gorm:"unique" json:"username"`
 	Password  string     `json:"password"`
-	Role      RoleStatus `gorm:"type:varchar(20);not null;default:'to do'" json:"status"`
-	BranchID  uint
+	Role      RoleStatus `gorm:"type:varchar(20);not null;default:'cashier'" json:"role"`
+	BranchID  uint       `json:"branch_id"`
 }
 
 // BeforeCreate will set a UUID rather than numeric ID.

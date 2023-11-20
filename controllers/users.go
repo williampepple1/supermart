@@ -24,6 +24,12 @@ func RegisterUser(db *gorm.DB) gin.HandlerFunc {
 			return
 		}
 
+		// Validate username length
+		if len(user.Username) < 5 || len(user.Username) > 9 {
+			c.JSON(http.StatusBadRequest, gin.H{"error": "Username must be between 5 and 9 characters"})
+			return
+		}
+
 		// Keep a lowercase version of the username for checking duplicates and saving
 		lowerUsername := strings.ToLower(user.Username)
 
