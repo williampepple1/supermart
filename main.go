@@ -25,8 +25,9 @@ func main() {
 	db.AutoMigrate(&models.Product{})
 
 	// Set up routes
-	routes.SetupUserRoutes(r, db)   // Setup user routes
-	routes.SetupBranchRoutes(r, db) // Setup branch routes
+	routes.SetupUserRoutes(r, db)    // Setup user routes
+	routes.SetupBranchRoutes(r, db)  // Setup branch routes
+	routes.SetupProductRoutes(r, db) // Setup product routes
 
 	r.Run(":8080")
 }
